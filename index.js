@@ -1,10 +1,11 @@
-import express from "express"
+//import express from "express"
+import express from "/Users/jeff/.npm-global/lib/node_modules/express/lib/express.js"
 import {
   compose 
-} from "../merger/merger-functions.js"
+} from "../merger/built/src/merger-functions.js"
 import {
    validateMergeMapToSchema
-} from "../merger/merger-map-validate.js"
+} from "../merger/built/src/merger-map-validate.js"
 
 import jsdom from "jsdom"
 
@@ -22,9 +23,6 @@ import {
    mergerMap as mergeMapLevels
 } from "./examples/levels/merger-map.js"
 
-
-import Ajv2019 from "ajv/dist/2019.js"
-
 global.debug = true;
 
 var mergeMap4View;
@@ -39,7 +37,7 @@ app.engine("html", (filePath, options, callback) => { // define the template eng
    var dom = JSDOM.fromFile(filePath, {
       includeNodeLocations: true
    }).then(dom => {
-      validateMergeMapToSchema(options.mergeMap4View, Ajv2019);
+ //     validateMergeMapToSchema(options.mergeMap4View);
       document = dom.window.document;
       compose(options.mergeMap4View, options.dataSources4View, document);
       return callback(null, dom.serialize());

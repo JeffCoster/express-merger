@@ -1,6 +1,6 @@
 {
-   "name": "express-merge",
-   "version": "0.1.0-beta.0",
+   "name": "express-merger",
+   "version": "0.1.0-betals.0",
    "description": "Using exress to serve pages composed using merge data driven mapping.",
    "main": "index.js",
    "type": "module",
