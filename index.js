@@ -8,20 +8,23 @@ import {
 } from "../merger/built/src/merger-map-validate.js"
 
 import jsdom from "jsdom"
+import fs from "fs"
 
 import {
    dataSources
 } from "./examples/simpleProductList/content/data-sources.js"
-import {
-   mergerMap
-} from "./examples/simpleProductList/merger-map.js"
+
+//import {
+//   mergerMap
+//} from "./examples/simpleProductList/merger-map.js"
 
 import {
    dataSources as dataSourcesLevels
 } from "./examples/levels/content/data-sources.js"
-import {
-   mergerMap as mergeMapLevels
-} from "./examples/levels/merger-map.js"
+
+//import {
+//   mergerMap as mergeMapLevels
+//} from "./examples/levels/merger-map.js"
 
 global.debug = true;
 
@@ -30,27 +33,39 @@ var dataSources4View;
 
 var app = express();
 
-// const fs = require("fs") // this engine requires the fs module
-app.engine("html", (filePath, options, callback) => { // define the template engine
+app.engine("json", (filePath, options, callback) => { // define the template engine
+
+   const mappingJson = fs.readFileSync(filePath);
+   console.log(mappingJson);
+   const mergeMap4View = JSON.parse(mappingJson.toString());
+   const htmlTemplatePath = mergeMap4View.templatePath;
+   dataSources4View = dataSources; 
+
    const {JSDOM} = jsdom;
    var document;
-   var dom = JSDOM.fromFile(filePath, {
+   var dom = JSDOM.fromFile(htmlTemplatePath, {
       includeNodeLocations: true
    }).then(dom => {
  //     validateMergeMapToSchema(options.mergeMap4View);
       document = dom.window.document;
-      compose(options.mergeMap4View, options.dataSources4View, document);
+      compose(mergeMap4View, dataSources4View, document);
+
+      // regression test
+      // TODO regressionTest(dom, baselineRenderedHtmlPath)
       return callback(null, dom.serialize());
    });
 })
 
 app.set("views", "./examples") // specify the views directory
-//app.set("view engine", "merge") // register the template engine module
+app.set("view engine", "json") // register the template engine module
 
 app.get("/products", (req, res) => {
-   mergeMap4View = mergerMap;
-   dataSources4View = dataSources;   
-   res.render("simpleProductList/product-lister-template.html", {mergeMap4View, dataSources4View});
+   // const mappingJson = fs.readFileSync("examples/simpleProductList/pl-merger-map.json");
+   // console.log(mappingJson);
+   // const mergeMap4View = JSON.parse(mappingJson.toString());
+   // const htmlTemplatePath = mergeMap4View.templatePath;
+   // dataSources4View = dataSources;   
+   res.render("simpleProductList/pl-merger-map.json", {mergeMap4View, dataSources4View});
 })
 
 app.get("/taxonomy", (req, res) => {
