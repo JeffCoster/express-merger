@@ -1,8 +1,7 @@
 //import express from "express"
 import express from "/Users/jeff/.npm-global/lib/node_modules/express/lib/express.js"
-import {
-  compose 
-} from "../merger/built/src/merger-functions.js"
+import {customFunctions} from "./examples/custom-functions.js"
+import {compose} from "../merger/built/src/merger-functions.js"
 import {
    validateMergeMapToSchema
 } from "../merger/built/src/merger-map-validate.js"
