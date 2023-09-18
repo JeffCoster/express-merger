@@ -4,8 +4,9 @@
 
 // The purpose of this file is to allow custom functions to be added to Merger, by anyone using Merger
 //
-import {dbgConsole} from "../../merger/built/src/merger-functions.js"
-import {extFunctions} from "../../merger/built/src/merger-extensions.js"
+import * as mergerExp from "merger"
+
+const dbgConsole = mergerExp.dbgConsole;
 
 export const customFunctions = {
 
@@ -47,5 +48,3 @@ export const customFunctions = {
       }
    }
 }
-
-extFunctions.customFunctions = customFunctions;
