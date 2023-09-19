@@ -1,4 +1,5 @@
 {
+   "templatePath": "./examples/levels/levels.html",
    "elementFills": [
       {
          "dataSrcJpath": "globals",
