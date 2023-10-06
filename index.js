@@ -25,9 +25,18 @@ app.get("/taxonomy", (req, res) => {
 
 app.get("/ex1test", (req, res) => {
    dataSources4View = dataSources;  
-   res.render("simpleProductList/pl-merger-map", {dataSources4View, customFunctions}, function (err, renderedHtml) {
-      res.send(renderedHtml);
+   try {
+      res.render("simpleProductList/pl-merger-map", {dataSources4View, customFunctions}, function (err, renderedHtml) {
+
+      // compare newly rendered with baseline html
+      console.log("------/n" +renderedHtml +"------/n");
+      test(renderedHtml, "examples/test/ex1baseline.html", function (answer) {
+      res.send(answer);
+      });
    });
+   } catch (e) {
+      console.error("Program Exception testing ex1test: " +e);
+   } 
 })
 
 app.get("/ex2test", (req, res) => {
